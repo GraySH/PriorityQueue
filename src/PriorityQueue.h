@@ -7,21 +7,44 @@
 
 #ifndef PRIORITYQUEUE_H_
 #define PRIORITYQUEUE_H_
+#include <iostream>
 
+using namespace std;
 typedef int Data;
-static const int HEAP_SIZE = 10;
+static const int MAX_HEAP_SIZE = 100;
 
 class PriorityQueue
 {
 private:
-	struct Heap
-	{
-		Data data;
-	};
-	Heap heapArray[HEAP_SIZE];
+	int numOfData;
+	Data heapArray[MAX_HEAP_SIZE];
 
 public:
-	void HeapInit();
+	PriorityQueue();
+	~PriorityQueue();
+
+	void init(int size);
+	bool isEmpty();
+
+	//return parent index of input index
+	int getParentIndex(int index);
+
+	//return child index
+	int getLeftChildIndex(int index);
+	int getRightChildIndex(int index);
+
+	//return bigger child index
+	int getPriorityIndex(int index);
+
+	//insert data to heap.
+	void insert(Data data);
+
+	//delete heap
+	Data deleteHeap();
+
+
+	//display contents of a heapArray
+	void showArray();
 
 };
 
