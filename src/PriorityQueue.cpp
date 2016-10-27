@@ -45,7 +45,6 @@ int PriorityQueue::getRightChildIndex(int index)
 	return (index * 2) + 1;
 }
 
-
 int PriorityQueue::getPriorityIndex(int index)
 {
 	if(getLeftChildIndex(index) > numOfData)
@@ -58,9 +57,8 @@ int PriorityQueue::getPriorityIndex(int index)
 	}
 	else
 	{
-		int leftIndex = getLeftChildIndex(index);
-		int rightIndex = getRightChildIndex(index);
-		if(heapArray[leftIndex] < heapArray[rightIndex])
+		//if(heapArray[getLeftChildIndex(index)] > heapArray[getRightChildIndex(index)])
+		if(comp(heapArray[getLeftChildIndex(index)], heapArray[getRightChildIndex(index)]))
 			return getLeftChildIndex(index);
 		else
 			return getRightChildIndex(index);
@@ -72,7 +70,8 @@ void PriorityQueue::insert(Data data)
 	int index = numOfData + 1;
 	while(index != 1)
 	{
-		if( heapArray[getParentIndex(index)] < data )
+		//if( data > heapArray[getParentIndex(index)] )
+		if( comp( data, heapArray[getParentIndex(index)]) )
 		{
 			heapArray[index] = heapArray[ getParentIndex(index) ];
 			index = getParentIndex(index);
@@ -80,7 +79,6 @@ void PriorityQueue::insert(Data data)
 		else
 			break;
 	}
-
 	//insert data to heapArray
 	heapArray[index] = data;
 	numOfData++;
@@ -88,32 +86,32 @@ void PriorityQueue::insert(Data data)
 
 void PriorityQueue::showArray()
 {
-	for(int i = 1; i <= numOfData; i++)
+	while(isEmpty() != true)
 	{
-		std::cout << heapArray[i] << " ";
+		cout << deleteHeap() << " ";
 	}
-	std::cout << std::endl;
+	cout << endl;
 }
 
 
 Data PriorityQueue::deleteHeap()
 {
-	int index = numOfData;
 	Data temp = heapArray[1];
-	while(index < numOfData)
+	Data lastElement = heapArray[numOfData];
+
+	int parentIndex = 1;
+	int childIndex;
+
+	while(childIndex = getPriorityIndex(parentIndex))
 	{
-		if(heapArray[index] > heapArray[getPriorityIndex(index)] )
-		{
-			//copy child contents to parent contents.
-			heapArray[index] = heapArray[getPriorityIndex(index)];
-			index = getPriorityIndex(index);
-		}
-		else
-		{
+		if(comp(lastElement, heapArray[childIndex]))
 			break;
-		}
+
+		heapArray[parentIndex] = heapArray[childIndex];
+		parentIndex = childIndex;
 	}
 
+	heapArray[parentIndex] = lastElement;
 	numOfData = numOfData - 1;
 	return temp;
 }

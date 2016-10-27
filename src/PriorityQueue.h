@@ -13,6 +13,9 @@ using namespace std;
 typedef int Data;
 static const int MAX_HEAP_SIZE = 100;
 
+//function pointer for compare function
+typedef bool priorityComp(Data d1, Data d2);
+
 class PriorityQueue
 {
 private:
@@ -20,6 +23,8 @@ private:
 	Data heapArray[MAX_HEAP_SIZE];
 
 public:
+	priorityComp* comp;
+
 	PriorityQueue();
 	~PriorityQueue();
 
